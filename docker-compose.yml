@@ -1,0 +1,26 @@
+version: "3"
+services:
+  google-traffic-screen:
+    build:
+      context: .
+      args:
+        all_proxy: #set proxy
+    image: alatas/google-traffic-screen
+    environment:
+      - api_key= #set google maps developer api key
+      - TZ=UTC #set your timezone
+      - onhour=17 #on hour
+      - onmin=30 #on minute
+      - offhour=20 #off hour
+      - offmin=30 #off minute
+      - mode=driving
+      - language=en
+      - units=imperial
+      - traffic_model=best_guess
+      - all_proxy= #set proxy
+    ports:
+      - "80:80"
+    volumes:
+      - ./www/index.html:/www/index.html
+      - ./www/locations.json:/www/locations.json
+    restart: always
