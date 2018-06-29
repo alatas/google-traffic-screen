@@ -154,14 +154,14 @@ settings = {"origin": locations['origin'], "params": {"mode": os.environ['mode']
                                                       "offhour": os.environ['offhour'],
                                                       "offmin": os.environ['offmin']}}
 savesettings()
-locations = sorted([Location(loc['name'].encode('utf-8').strip(), loc['address'].encode('utf-8').strip())
-                    for loc in locations['locations']], key=lambda kv: kv.name)
+locations = [Location(loc['name'].encode('utf-8').strip(), loc['address'].encode('utf-8').strip())
+             for loc in locations['locations']]
 
 ontime = time2(int(settings['params']['onhour']),
                int(settings['params']['onmin']))
 offtime = time2(int(settings['params']['offhour']),
                 int(settings['params']['offmin']))
-print 'http and https proxies: {0}, {1}'.format(os.environ['HTTP_PROXY'],os.environ['HTTPS_PROXY'])
+
 print 'working hours is between {0} -> {1}'.format(ontime, offtime)
 print '{0} locations are loaded'.format(len(locations))
 print 'starting server and updater'

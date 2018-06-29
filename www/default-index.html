@@ -120,6 +120,10 @@
             }
 
             $.getJSON('data.json?' + new Date().getTime()).done(function (ret) {
+                //sorting locations by name
+                ret.sort(function (a, b) {
+                    return a.name.localeCompare(b.name, scope.ctrl.settings.params.language);
+                });
                 scope.ctrl.setLocations(ret);
                 scope.$apply();
             }).fail(function (e) {
@@ -181,7 +185,7 @@
         .title {
             width: 100%;
             display: table;
-            background-color: whitesmoke;
+            color: whitesmoke;
             font-size: 200%;
             padding: 20px 0 20px 0;
             margin: 5px 0 5px 0;
