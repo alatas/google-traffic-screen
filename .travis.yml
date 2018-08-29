@@ -1,13 +1,41 @@
 sudo: true
 dist: trusty
+language: minimal
+services:
+  - docker
 
-jobs:
-  include:
-    - stage: build docker image
-      script:
-      - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-      - docker build -t $DOCKER_USERNAME/google-traffic-screen:latest .
-      - docker images
-      - docker push $DOCKER_USERNAME/google-traffic-screen:latest
-      - docker tag $DOCKER_USERNAME/google-traffic-screen:latest $DOCKER_USERNAME/google-traffic-screen:r2
-      - docker push $DOCKER_USERNAME/google-traffic-screen:r2
+env:
+  global:
+    - DOCKER_USERNAME=alatas
+    - AUTHOR=alatas
+    - REPO_NAME=google-traffic-screen
+
+before_script:
+  - export TAG=$(echo $TRAVIS_COMMIT_MESSAGE | egrep -o 'r[0-9]+')
+
+script:
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+  - docker build -t $DOCKER_USERNAME/$REPO_NAME:latest .
+  - docker images
+  - docker push $DOCKER_USERNAME/$REPO_NAME:latest
+  - docker tag $DOCKER_USERNAME/$REPO_NAME:latest $DOCKER_USERNAME/$REPO_NAME:$TAG
+  - docker push $DOCKER_USERNAME/$REPO_NAME:$TAG
+
+before_deploy:
+  - git tag -f "$TAG" -m "$TRAVIS_COMMIT_MESSAGE"
+  - git tag
+  - export DEPLOY=$TRAVIS_BUILD_DIR/../deploy
+  - mkdir -p $DEPLOY
+  - cp -R -f $TRAVIS_BUILD_DIR/* $DEPLOY
+  - rm -f "$DEPLOY/../$REPO_NAME-$TAG.zip" && cd $DEPLOY/ && zip -r -J "$DEPLOY/../$REPO_NAME-$TAG.zip" *
+  - cd $TRAVIS_BUILD_DIR/
+
+deploy:
+  provider: releases
+  api_key: $GITHUB_TOKEN
+  file: "$DEPLOY/../$REPO_NAME-$TAG.zip"
+  overwrite: true
+  skip_cleanup: true
+  on:
+    repo: $AUTHOR/$REPO_NAME
+    all_branches: true
