@@ -17,6 +17,7 @@ services:
       - language=en
       - units=imperial
       - traffic_model=best_guess
+      - update_interval=6 #update interval in min
       - all_proxy= #set proxy
     ports:
       - "80:80"

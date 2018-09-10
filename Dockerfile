@@ -14,6 +14,7 @@ ENV api_key= \
     onmin=30 \
     offhour=20 \
     offmin=30 \
+    update_interval=6 \
     HTTP_PROXY=$all_proxy \
     HTTPS_PROXY=$all_proxy 
  
