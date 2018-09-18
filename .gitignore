@@ -1,4 +1,5 @@
 .vscode
+*.pyc
 www/data.json
 www/settings.json
 www/index.html

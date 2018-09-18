@@ -1,6 +1,7 @@
 sudo: true
 dist: trusty
 language: minimal
+if: branch = master
 services:
   - docker
 
@@ -24,16 +25,26 @@ script:
 before_deploy:
   - git tag -f "$TAG" -m "$TRAVIS_COMMIT_MESSAGE"
   - git tag
-  - export DEPLOY=$TRAVIS_BUILD_DIR/../deploy
-  - mkdir -p $DEPLOY
-  - cp -R -f $TRAVIS_BUILD_DIR/* $DEPLOY
-  - rm -f "$DEPLOY/../$REPO_NAME-$TAG.zip" && cd $DEPLOY/ && zip -r -J "$DEPLOY/../$REPO_NAME-$TAG.zip" *
+  - export DEPLOY_DOCKER=$TRAVIS_BUILD_DIR/../deploy_docker
+  - export DEPLOY_NODOCKER=$TRAVIS_BUILD_DIR/../deploy_nodocker
+  - mkdir -p $DEPLOY_DOCKER
+  - mkdir -p $DEPLOY_NODOCKER
+  - mkdir -p $DEPLOY_DOCKER/www
+  - mkdir -p $DEPLOY_NODOCKER/www
+  - cp -f $TRAVIS_BUILD_DIR/*.py $TRAVIS_BUILD_DIR/*.yml $TRAVIS_BUILD_DIR/Dockerfile $DEPLOY_DOCKER
+  - cp -f $TRAVIS_BUILD_DIR/www/index.html $DEPLOY_DOCKER/www
+  - cp -f $TRAVIS_BUILD_DIR/*.py $TRAVIS_BUILD_DIR/settings.yml $TRAVIS_BUILD_DIR/locations.yml $DEPLOY_NODOCKER
+  - cp -f $TRAVIS_BUILD_DIR/www/* $DEPLOY_NODOCKER/www
+  - rm -f "$DEPLOY_DOCKER/../$REPO_NAME-$TAG-docker.zip" && cd $DEPLOY_DOCKER/ && zip -r -J "$DEPLOY_DOCKER/../$REPO_NAME-$TAG-docker.zip" *
+  - rm -f "$DEPLOY_NODOCKER/../$REPO_NAME-$TAG.zip" && cd $DEPLOY_NODOCKER/ && zip -r -J "$DEPLOY_NODOCKER/../$REPO_NAME-$TAG.zip" *
   - cd $TRAVIS_BUILD_DIR/
 
 deploy:
   provider: releases
   api_key: $GITHUB_TOKEN
-  file: "$DEPLOY/../$REPO_NAME-$TAG.zip"
+  file: 
+    - "$DEPLOY_DOCKER/../$REPO_NAME-$TAG-docker.zip"
+    - "$DEPLOY_NODOCKER/../$REPO_NAME-$TAG.zip"
   overwrite: true
   skip_cleanup: true
   on:

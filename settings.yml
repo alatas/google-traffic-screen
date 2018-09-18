@@ -1,0 +1,21 @@
+origin:
+  name: Grand Central Terminal
+  address: 89 E 42nd St, New York, NY
+
+api_params:
+  api_key: #set google maps developer api key
+  mode: driving
+  language: en
+  units: imperial
+  traffic_model: best_guess
+
+schedule:
+  onhour: 17
+  onmin: 30
+  offhour: 20
+  offmin: 00
+  update_interval: 6
+
+environment:
+  TZ: UTC #set your timezone
+  all_proxy: #set proxy
