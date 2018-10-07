@@ -45,8 +45,8 @@ def loadsettings():
 
 def startwebserver():
   handler = SimpleHTTPServer.SimpleHTTPRequestHandler
-  httpd = SocketServer.TCPServer(("", 80), handler)
-  logging.info('serving at port 80')
+  httpd = SocketServer.TCPServer(("", 8901), handler)
+  logging.info('serving at port 8901')
   httpd.serve_forever()
 
 

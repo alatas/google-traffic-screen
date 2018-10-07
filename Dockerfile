@@ -14,6 +14,6 @@ ENV TZ America/New_York
 COPY *.py /
 COPY www/*.js /www/
 
-EXPOSE 80
+EXPOSE 8901
 
 ENTRYPOINT [ "python","trafficscreen.py" ]

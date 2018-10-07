@@ -9,7 +9,7 @@ services:
     environment:
       - all_proxy= #set proxy
     ports:
-      - "80:80"
+      - "8901:8901"
     volumes:
       - ./www/index.html:/www/index.html
       - ./settings.yml:/settings.yml
