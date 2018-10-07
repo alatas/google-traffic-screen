@@ -1,11 +1,7 @@
 version: "3"
 services:
   google-traffic-screen:
-    build:
-      context: .
-      args:
-        all_proxy: #set proxy
-    image: alatas/google-traffic-screen
+    image: alatas/google-traffic-screen:latest
     environment:
       - all_proxy= #set proxy
     ports:

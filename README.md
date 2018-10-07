@@ -66,7 +66,7 @@ Google Distance Matrix API has some customization options for calculation ETA va
 | units | imperial | Specifies the unit system to use when expressing distance as text. `metric` returns distances in kilometers and meters. `imperial` returns distances in miles and feet |
 | traffic_model | best_guess | Specifies the assumptions to use when calculating time in traffic. `best_guess` indicates that the returned ETA should be the best estimate of travel time given what is known about both historical traffic conditions and live traffic. `pessimistic` indicates that the returned ETA should be longer than the actual travel time on most days, though occasional days with particularly bad traffic conditions may exceed this value. `optimistic` indicates that the returned ETA should be shorter than the actual travel time on most days, though occasional days with particularly good traffic conditions may be faster than this value. |
 | | | |
-| [schedule*]((#google-maps-api-usage)) | | |
+| [schedule*](#google-maps-api-usage) | | |
 | onhour | 17 | This value indicates the start hour of the on-duty time in 24h format. |
 | onmin | 30 | This value indicates the start minute of the on-duty time. |
 | offhour | 20 | This value indicates end hour of the on-duty time in 24h format. |

@@ -31,7 +31,8 @@ before_deploy:
   - mkdir -p $DEPLOY_NODOCKER
   - mkdir -p $DEPLOY_DOCKER/www
   - mkdir -p $DEPLOY_NODOCKER/www
-  - cp -f $TRAVIS_BUILD_DIR/*.py $TRAVIS_BUILD_DIR/*.yml $TRAVIS_BUILD_DIR/Dockerfile $DEPLOY_DOCKER
+  - cp -f $TRAVIS_BUILD_DIR/*.py $TRAVIS_BUILD_DIR/*.yml $DEPLOY_DOCKER
+  - sed -i 's/latest/$TAG/g' $DEPLOY_DOCKER/docker-compose.yml 
   - cp -f $TRAVIS_BUILD_DIR/www/index.html $DEPLOY_DOCKER/www
   - cp -f $TRAVIS_BUILD_DIR/*.py $TRAVIS_BUILD_DIR/settings.yml $TRAVIS_BUILD_DIR/locations.yml $DEPLOY_NODOCKER
   - cp -f $TRAVIS_BUILD_DIR/www/* $DEPLOY_NODOCKER/www
